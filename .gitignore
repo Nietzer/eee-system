@@ -27,7 +27,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# vendor
+# vendor Folder
 /vendor
 
 # End of https://www.toptal.com/developers/gitignore/api/windows
