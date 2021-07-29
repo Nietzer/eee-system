@@ -77,13 +77,15 @@ class PlanController extends Controller
         $speciality = SpecialityForm::find()->all();
         $subject = SubjectForm::find()->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 
             $modelUpload->file = UploadedFile::getInstance($modelUpload, 'file');
             $model->file = $modelUpload->upload();
 
             $file_type_query = TypeForm::findOne(['name' => $modelUpload->file_type]);
             $model->type_id = $file_type_query->id;
+
+            $model->save();
 
             return $this->redirect(['plan/index']);
         }
