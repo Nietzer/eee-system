@@ -8,6 +8,12 @@ use app\models\PlanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
+use app\models\CathedraForm;
+use app\models\SpecialityForm;
+use app\models\SubjectForm;
+use app\models\TypeForm;
 
 /**
  * PlanController implements the CRUD actions for PlanForm model.
@@ -65,13 +71,29 @@ class PlanController extends Controller
     public function actionCreate()
     {
         $model = new PlanForm();
+        $modelUpload = new UploadForm();
+
+        $cathedrlas = CathedraForm::find()->all();
+        $speciality = SpecialityForm::find()->all();
+        $subject = SubjectForm::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $modelUpload->file = UploadedFile::getInstance($modelUpload, 'file');
+            $model->file = $modelUpload->upload();
+
+            $file_type_query = TypeForm::findOne(['name' => $modelUpload->file_type]);
+            $model->type_id = $file_type_query->id;
+
+            return $this->redirect(['plan/index']);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelUpload' => $modelUpload,
+            'cathedrlas' => $cathedrlas,
+            'speciality' => $speciality,
+            'subject' => $subject,
         ]);
     }
 

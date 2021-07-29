@@ -67,7 +67,7 @@ class CathedraController extends Controller
         $model = new CathedraForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['cathedra/index']);
         }
 
         return $this->render('create', [

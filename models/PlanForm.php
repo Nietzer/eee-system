@@ -42,16 +42,16 @@ class PlanForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'date_term', 'cathedra_id', 'speciality_id', 'subject_id', 'type_id', 'file', 'status_id'], 'required'],
+            // [['name', 'cathedra_id', 'speciality_id', 'subject_id', 'type_id', 'file'], 'required'],
             [['date_create', 'date_term'], 'safe'],
             [['cathedra_id', 'speciality_id', 'subject_id', 'type_id', 'status_id'], 'integer'],
             [['name', 'file'], 'string', 'max' => 255],
-            [['speciality_id'], 'exist', 'skipOnError' => true, 'targetClass' => Speciality::className(), 'targetAttribute' => ['speciality_id' => 'id']],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
-            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Type::className(), 'targetAttribute' => ['type_id' => 'id']],
-            [['cathedra_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cathedra::className(), 'targetAttribute' => ['cathedra_id' => 'id']],
-            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'id']],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Author::className(), 'targetAttribute' => ['id' => 'plan_id']],
+            [['speciality_id'], 'exist', 'skipOnError' => true, 'targetClass' => SpecialityForm::className(), 'targetAttribute' => ['speciality_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => SubjectForm::className(), 'targetAttribute' => ['subject_id' => 'id']],
+            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TypeForm::className(), 'targetAttribute' => ['type_id' => 'id']],
+            [['cathedra_id'], 'exist', 'skipOnError' => true, 'targetClass' => CathedraForm::className(), 'targetAttribute' => ['cathedra_id' => 'id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusForm::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => AuthorForm::className(), 'targetAttribute' => ['id' => 'plan_id']],
         ];
     }
 
@@ -62,15 +62,15 @@ class PlanForm extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Название',
             'date_create' => 'Date Create',
-            'date_term' => 'Date Term',
-            'cathedra_id' => 'Cathedra ID',
-            'speciality_id' => 'Speciality ID',
-            'subject_id' => 'Subject ID',
+            'date_term' => 'Срок выполнения',
+            'cathedra_id' => 'Кафедра',
+            'speciality_id' => 'Специальность',
+            'subject_id' => 'Предмет',
             'type_id' => 'Type ID',
-            'file' => 'File',
-            'status_id' => 'Status ID',
+            'file' => 'Файл',
+            'status_id' => 'Статус',
         ];
     }
 
@@ -81,7 +81,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getSpeciality()
     {
-        return $this->hasOne(Speciality::className(), ['id' => 'speciality_id']);
+        return $this->hasOne(SpecialityForm::className(), ['id' => 'speciality_id']);
     }
 
     /**
@@ -91,7 +91,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getSubject()
     {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
+        return $this->hasOne(SubjectForm::className(), ['id' => 'subject_id']);
     }
 
     /**
@@ -101,7 +101,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getType()
     {
-        return $this->hasOne(Type::className(), ['id' => 'type_id']);
+        return $this->hasOne(TypeForm::className(), ['id' => 'type_id']);
     }
 
     /**
@@ -111,7 +111,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getCathedra()
     {
-        return $this->hasOne(Cathedra::className(), ['id' => 'cathedra_id']);
+        return $this->hasOne(CathedraForm::className(), ['id' => 'cathedra_id']);
     }
 
     /**
@@ -121,7 +121,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['id' => 'status_id']);
+        return $this->hasOne(StatusForm::className(), ['id' => 'status_id']);
     }
 
     /**
@@ -131,7 +131,7 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getId0()
     {
-        return $this->hasOne(Author::className(), ['plan_id' => 'id']);
+        return $this->hasOne(AuthorForm::className(), ['plan_id' => 'id']);
     }
 
     /**
@@ -141,6 +141,6 @@ class PlanForm extends \yii\db\ActiveRecord
      */
     public function getSpeciality0()
     {
-        return $this->hasOne(Speciality::className(), ['id' => 'speciality_id']);
+        return $this->hasOne(SpecialityForm::className(), ['id' => 'speciality_id']);
     }
 }
