@@ -14,6 +14,7 @@ use app\models\CathedraForm;
 use app\models\SpecialityForm;
 use app\models\SubjectForm;
 use app\models\TypeForm;
+use app\models\ProfileForm;
 
 /**
  * PlanController implements the CRUD actions for PlanForm model.
@@ -70,32 +71,38 @@ class PlanController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PlanForm();
+        $modelPlan = new PlanForm();
         $modelUpload = new UploadForm();
+        $modelProfile = new ProfileForm();
 
         $cathedrlas = CathedraForm::find()->all();
         $speciality = SpecialityForm::find()->all();
         $subject = SubjectForm::find()->all();
 
-        if ($model->load(Yii::$app->request->post())) {
+        // n_s_m - Name Surname Middlename
+        $n_s_m = ProfileForm::find()->all();
+
+        if ($modelPlan->load(Yii::$app->request->post())) {
 
             $modelUpload->file = UploadedFile::getInstance($modelUpload, 'file');
-            $model->file = $modelUpload->upload();
+            $modelPlan->file = $modelUpload->upload();
 
             $file_type_query = TypeForm::findOne(['name' => $modelUpload->file_type]);
-            $model->type_id = $file_type_query->id;
+            $modelPlan->type_id = $file_type_query->id;
 
-            $model->save();
+            $modelPlan->save();
 
             return $this->redirect(['plan/index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'modelPlan' => $modelPlan,
             'modelUpload' => $modelUpload,
+            'modelProfile' => $modelProfile,
             'cathedrlas' => $cathedrlas,
             'speciality' => $speciality,
             'subject' => $subject,
+            'n_s_m' => $n_s_m,
         ]);
     }
 

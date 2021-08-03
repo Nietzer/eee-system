@@ -13,31 +13,37 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelPlan, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'date_term')->textInput() ?>
+    <?= $form->field($modelPlan, 'date_term')->textInput() ?>
 
     <?php 
     $cathedrlas_items = ArrayHelper::map($cathedrlas, 'id', 'name');
     $cathedrlas_params = ['prompt' => 'Укажите кафедру'];
-    echo $form->field($model, 'cathedra_id')->dropDownList($cathedrlas_items, $cathedrlas_params);
+    echo $form->field($modelPlan, 'cathedra_id')->dropDownList($cathedrlas_items, $cathedrlas_params);
     ?>
 
     <?php 
     $speciality_items = ArrayHelper::map($speciality, 'id', 'name');
     $speciality_params = ['prompt' => 'Укажите специальность'];
-    echo $form->field($model, 'speciality_id')->dropDownList($speciality_items, $speciality_params);
+    echo $form->field($modelPlan, 'speciality_id')->dropDownList($speciality_items, $speciality_params);
     ?>
 
     <?php 
     $subject_items = ArrayHelper::map($subject, 'id', 'name');
     $subject_params = ['prompt' => 'Укажите предмет'];
-    echo $form->field($model, 'subject_id')->dropDownList($subject_items, $subject_params);
+    echo $form->field($modelPlan, 'subject_id')->dropDownList($subject_items, $subject_params);
+    ?>
+
+    <?php 
+    $n_s_m_items = ArrayHelper::map($n_s_m, 'user_id', 'name' , 'surname');
+    $n_s_m_params = ['prompt' => 'Укажите преподавтеля'];
+    echo $form->field($modelProfile, 'user_id')->dropDownList($n_s_m_items, $n_s_m_params);
     ?>
 
     <?= $form->field($modelUpload, 'file')->fileInput() ?>
 
-    <?= $form->field($model, 'status_id')->textInput() ?>
+    <?= $form->field($modelPlan, 'status_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

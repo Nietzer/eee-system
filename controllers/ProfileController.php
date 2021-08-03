@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\SpecialityForm;
-use app\models\SpecialitySearch;
+use app\models\ProfileForm;
+use app\models\ProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * SpecialityController implements the CRUD actions for SpecialityForm model.
+ * ProfileController implements the CRUD actions for ProfileForm model.
  */
-class SpecialityController extends Controller
+class ProfileController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Lists all SpecialityForm models.
+     * Lists all ProfileForm models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SpecialitySearch();
+        $searchModel = new ProfileSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Displays a single SpecialityForm model.
+     * Displays a single ProfileForm model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Creates a new SpecialityForm model.
+     * Creates a new ProfileForm model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new SpecialityForm();
+        $model = new ProfileForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['speciality/index']);
+            return $this->redirect(['profile/index']);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Updates an existing SpecialityForm model.
+     * Updates an existing ProfileForm model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Deletes an existing SpecialityForm model.
+     * Deletes an existing ProfileForm model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class SpecialityController extends Controller
     }
 
     /**
-     * Finds the SpecialityForm model based on its primary key value.
+     * Finds the ProfileForm model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return SpecialityForm the loaded model
+     * @return ProfileForm the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = SpecialityForm::findOne($id)) !== null) {
+        if (($model = ProfileForm::findOne($id)) !== null) {
             return $model;
         }
 

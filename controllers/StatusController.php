@@ -67,7 +67,7 @@ class StatusController extends Controller
         $model = new StatusForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['status/index']);
         }
 
         return $this->render('create', [

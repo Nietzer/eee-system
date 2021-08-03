@@ -67,7 +67,7 @@ class AuthorController extends Controller
         $model = new AuthorForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['author/index']);
         }
 
         return $this->render('create', [
