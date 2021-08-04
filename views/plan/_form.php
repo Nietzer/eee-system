@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -19,13 +20,27 @@ use yii\helpers\ArrayHelper;
 
     <?php 
     $cathedrlas_items = ArrayHelper::map($cathedrlas, 'id', 'name');
-    $cathedrlas_params = ['prompt' => 'Укажите кафедру'];
+    $cathedrlas_params = [
+        'prompt' => 'Укажите кафедру',
+        'onchange' => '
+            $.post(
+                "'.Url::toRoute('plan/get-speciality').'",
+                {id : $(this).val()},
+                function(data){
+                    $("select#planform-speciality_id").html(data).attr("disabled", false)
+                }
+            )
+            '
+        ];
     echo $form->field($modelPlan, 'cathedra_id')->dropDownList($cathedrlas_items, $cathedrlas_params);
     ?>
 
     <?php 
     $speciality_items = ArrayHelper::map($speciality, 'id', 'name');
-    $speciality_params = ['prompt' => 'Укажите специальность'];
+    $speciality_params = [
+        'prompt' => 'Укажите специальность', 
+        'disabled' => 'disabled',
+    ];
     echo $form->field($modelPlan, 'speciality_id')->dropDownList($speciality_items, $speciality_params);
     ?>
 
@@ -36,12 +51,10 @@ use yii\helpers\ArrayHelper;
     ?>
 
     <?php 
-    $n_s_m_items = ArrayHelper::map($n_s_m, 'user_id', 'name' , 'surname');
+    $n_s_m_items = ArrayHelper::map($n_s_m, 'user_id', 'name');
     $n_s_m_params = ['prompt' => 'Укажите преподавтеля'];
     echo $form->field($modelProfile, 'user_id')->dropDownList($n_s_m_items, $n_s_m_params);
     ?>
-
-    <?= $form->field($modelUpload, 'file')->fileInput() ?>
 
     <?= $form->field($modelPlan, 'status_id')->textInput() ?>
 

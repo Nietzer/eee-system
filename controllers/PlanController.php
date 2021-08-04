@@ -9,12 +9,12 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\UploadForm;
-use yii\web\UploadedFile;
 use app\models\CathedraForm;
+use app\models\LinkForm;
 use app\models\SpecialityForm;
 use app\models\SubjectForm;
-use app\models\TypeForm;
 use app\models\ProfileForm;
+use yii\helpers\CHtml;
 
 /**
  * PlanController implements the CRUD actions for PlanForm model.
@@ -80,30 +80,34 @@ class PlanController extends Controller
         $subject = SubjectForm::find()->all();
 
         // n_s_m - Name Surname Middlename
-        $n_s_m = ProfileForm::find()->all();
-
-        if ($modelPlan->load(Yii::$app->request->post())) {
-
-            $modelUpload->file = UploadedFile::getInstance($modelUpload, 'file');
-            $modelPlan->file = $modelUpload->upload();
-
-            $file_type_query = TypeForm::findOne(['name' => $modelUpload->file_type]);
-            $modelPlan->type_id = $file_type_query->id;
-
-            $modelPlan->save();
-
+        $n_s_m = ProfileForm::find()->select(['user_id', 'concat(name, " ", surname)  as name' ])->all();
+        // var_dump($n_s_m);die;
+        if ($modelPlan->load(Yii::$app->request->post()) && $modelPlan->save()) {
             return $this->redirect(['plan/index']);
         }
 
         return $this->render('create', [
             'modelPlan' => $modelPlan,
-            'modelUpload' => $modelUpload,
             'modelProfile' => $modelProfile,
             'cathedrlas' => $cathedrlas,
             'speciality' => $speciality,
             'subject' => $subject,
             'n_s_m' => $n_s_m,
         ]);
+    }
+
+    public function actionGetSpeciality() {
+        $id = (int)Yii::$app->request->post('id');
+       
+        $data = LinkForm::find()
+        ->where(['cathedra_id' => $id])
+        ->all();
+
+        foreach($data as $speciality){
+            $dd .= '<option value="'.$speciality->speciality->id.'">'.$speciality->speciality->name.'</option>';
+        }
+
+        return $dd;
     }
 
     /**
